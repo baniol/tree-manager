@@ -12,13 +12,21 @@ function readDir (cb) {
   });
 }
 
+function setup () {
+  execSync("mkdir test/test_dir_root; cp -r test/test_dir/* test/test_dir_root");
+  execSync("mkdir test/test_dir_root/empty_dir");
+}
+function teardown () {
+  execSync("rm -fr test/test_dir_root");
+}
+
 suite('Tree Manager', function() {
 
   suiteSetup(function () {
-    execSync("mkdir test/test_dir_root; cp -r test/test_dir/* test/test_dir_root");
+    setup();
   });
   suiteTeardown(function () {
-    execSync("rm -fr test/test_dir_root");
+    teardown();
   });
 
   test('Read Dir Success', function(done){
@@ -53,10 +61,10 @@ suite('Tree Manager', function() {
 suite('Creating a new node', function () {
 
   suiteSetup(function () {
-    execSync("mkdir test/test_dir_root; cp -r test/test_dir/* test/test_dir_root");
+    setup();
   });
   suiteTeardown(function () {
-    execSync("rm -fr test/test_dir_root");
+    teardown();
   });
 
   test('Add a new file', function (done) {
@@ -91,10 +99,10 @@ suite('Creating a new node', function () {
 suite('Renaming node', function () {
 
   suiteSetup(function () {
-    execSync("mkdir test/test_dir_root; cp -r test/test_dir/* test/test_dir_root");
+    setup();
   });
   suiteTeardown(function () {
-    execSync("rm -fr test/test_dir_root");
+    teardown();
   });
 
   test('Rename a node with success', function (done) {
