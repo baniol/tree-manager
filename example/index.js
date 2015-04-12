@@ -11,7 +11,7 @@ var TreeManager = require('../lib/treemanager');
 var rootDir = __dirname + '/root_dir';
 var treeManager = new TreeManager(rootDir);
 
-server.listen(8080);
+server.listen(5000);
 
 // Serve static files for frontend
 app.use(express.static(__dirname + '/public'));
