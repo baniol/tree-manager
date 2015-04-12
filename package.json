@@ -1,0 +1,22 @@
+{
+  "name": "tree-manager",
+  "version": "0.1.0",
+  "description": "Display and manage directory tree",
+  "main": "./lib/treemanager.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "jstree",
+    "tree",
+    "directory",
+    "folder"
+  ],
+  "author": "Marcin Baniowski",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "exec-sync": "^0.1.6",
+    "mocha": "^2.2.4"
+  }
+}
