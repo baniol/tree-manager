@@ -45,19 +45,19 @@ app.get('/rename_node', function (req, res) {
 });
 
 app.get('/delete_node', function (req, res) {
-  treeManager.deleteNode(req.query, function (response) {
+  treeManager.deleteNode(req.query.id, function (response) {
     console.log(response);
   });
 });
 
 app.get('/move_node', function (req, res) {
-  treeManager.moveNode(req.query, function (response) {
+  treeManager.moveNode(req.query.id, req.query.parent, function (response) {
     res.send(response);
   });
 });
 
 app.get('/getfilecontent', function (req, res) {
-  treeManager.getFileContent(req.query.filename, function (response) {
+  treeManager.readFile(req.query.filename, function (response) {
     res.send(response);
   });
 });

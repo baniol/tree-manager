@@ -2,6 +2,8 @@ var assert = require('assert');
 var path = require('path');
 var execSync = require('exec-sync');
 
+var fs = require('fs');
+
 var TreeManager = require('../lib/treemanager');
 var rootDir = __dirname + '/test_dir_root';
 var treeManager = new TreeManager(rootDir);
@@ -9,6 +11,13 @@ var treeManager = new TreeManager(rootDir);
 function readDir (cb) {
   treeManager.walkDir(rootDir, function (err, tree) {
     cb(err, tree);
+  });
+}
+
+function checkIfExists (nodeName, cb) {
+  var nodePath = path.join(rootDir, nodeName);
+  fs.exists(nodePath, function (exists) {
+    cb(exists);
   });
 }
 
@@ -69,21 +78,22 @@ suite('Creating a new node', function () {
 
   test('Add a new file', function (done) {
     treeManager.createNode('new_name', 'file', function (res) {
-      readDir(function (err, tree) {
-        assert.equal(tree[0].text, 'new_name', 'File added');
+      assert.equal(res, 'new_name', 'Response should equal the new file name');
+      checkIfExists('new_name', function (exists) {
+        assert.ok(exists);
         done();
       });
-    })
+    });
   });
 
   test('Add a new folder', function (done) {
     treeManager.createNode('new_folder', 'folder', function (res) {
-      readDir(function (err, tree) {
-        assert.equal(tree[4].text, 'new_folder', 'Folder added');
-        assert.equal(tree[4].children.length, 0, 'Check if it\'s a folder');
+      assert.equal(res, 'new_folder', 'Response should equal the new folder name');
+      checkIfExists('new_folder', function (exists) {
+        assert.ok(exists);
         done();
       });
-    })
+    });
   });
 
   test('Add a new file with wrong type', function (done) {
@@ -118,10 +128,87 @@ suite('Renaming node', function () {
   // @TODO change title
   test('Rename a node from non existent path', function (done) {
     treeManager.renameNode('/second_dir/three_not.js', 'changed.js', function (res) {
-      assert.ok(res instanceof Error, 'Throm an error');
+      assert.ok(res instanceof Error, 'Throw an error');
       assert.equal(res.toString(), 'Error: Node does not exist', 'Display error message');
       done();
     })
+  });
+
+});
+
+suite('Deleting nodes', function () {
+
+  suiteSetup(function () {
+    setup();
+  });
+  suiteTeardown(function () {
+    teardown();
+  });
+
+  test('Try to delete non existent node', function (done) {
+    treeManager.deleteNode('/non_existent_node', function (res) {
+      assert.ok(res instanceof Error, 'Throw an error');
+      assert.equal(res.toString(), 'Error: File to remove do not exist', 'Display error message');
+      done();
+    })
+  });
+
+  test('Deleting a file', function (done) {
+    treeManager.deleteNode('/one.js', function (res) {
+      assert.equal(res, '/one.js', 'Response should equal the removed file name');
+      checkIfExists('one.js', function (exists) {
+        assert.ok(!exists);
+        done();
+      });
+    });
+  });
+
+  test('Deleting a folder', function (done) {
+    treeManager.deleteNode('/second_dir', function (res) {
+      assert.equal(res, '/second_dir', 'Response should equal the removed folder name');
+      checkIfExists('second_dir', function (exists) {
+        assert.ok(!exists);
+        done();
+      });
+    });
+  });
+});
+
+suite('Moving nodes', function () {
+
+  suiteSetup(function () {
+    setup();
+  });
+  suiteTeardown(function () {
+    teardown();
+  });
+
+  test('Move node', function (done) {
+    treeManager.moveNode('one.js', 'second_dir', function (res) {
+      var newPath = path.join('second_dir', 'one.js');
+      checkIfExists(newPath, function (exists) {
+        assert.ok(exists);
+        done();
+      });
+    });
+  });
+
+});
+
+suite('File content manipulation', function () {
+
+  suiteSetup(function () {
+    setup();
+  });
+  suiteTeardown(function () {
+    teardown();
+  });
+
+  test('Read file', function (done) {
+    treeManager.readFile('second_dir/three.js', function (res) {
+      assert.equal(res, 'three content', 'Reading file content');
+      done();
+    });
   });
 
 });

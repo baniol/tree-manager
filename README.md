@@ -51,3 +51,4 @@ treeManager.createNode(filename, type, function (response) {
 * search npm modules for api description in readme
 * load tests - check if walkDir is async
 * search for best practices for npm modules
+* check uniqueness after renaming and moving - server side
