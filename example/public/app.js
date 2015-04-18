@@ -101,17 +101,20 @@ $(document).ready(function () {
               data.instance.refresh();
             });
         });
-        
+  
+
   $(document).on('dblclick', '#tree .jstree-anchor', function () {
+    var output = $('#output');
     var $el = $(this);
     var fileName = $el.attr('id');
     if (fileName) {
       $.get('/getfilecontent', {filename: fileName})
       .success(function (res) {
         console.log(res);
+        output.text(res);
       })
       .error(function (err) {
-        console.log(err);
+        output.text(err);
       });
     }
   });

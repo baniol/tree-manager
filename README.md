@@ -123,3 +123,4 @@ To perform tests run `npm test` in the `tree-manager` root directory.
 * 2 option for folder removal - recursive with all subfolders and files and only empty
 * check performance of walkDir function for larger directory structure
 * check uniqueness after renaming and moving - server side
+* write file to example

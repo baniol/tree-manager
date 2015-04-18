@@ -57,12 +57,12 @@ app.get('/move_node', function (req, res) {
 });
 
 app.get('/getfilecontent', function (req, res) {
-  fs.readFile(path.join(this.root, req.query.filename), {encoding: 'utf-8'}, function (err, data) {
+  fs.readFile(path.join(rootDir, req.query.filename), {encoding: 'utf-8'}, function (err, data) {
     if (err) {
-      cb(new Error('Error reading file'));
+      res.status(500).json(JSON.stringify(err));
     }
     else {
-      cb(data);
+      res.send(data)
     }
   });
 });

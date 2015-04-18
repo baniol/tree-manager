@@ -1,19 +1,31 @@
 {
   "name": "tree-manager",
-  "version": "0.1.0",
-  "description": "Display and manage directory tree",
+  "version": "0.0.2",
+  "description": "Display and manage directory tree. Connector for jstree.",
   "main": "./lib/treemanager.js",
   "scripts": {
     "test": "make test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baniol/tree-manager.git"
+  },
   "keywords": [
-    "jstree",
     "tree",
-    "directory",
-    "folder"
+    "jstree",
+    "file",
+    "system",
+    "files",
+    "manager",
+    "file",
+    "tree"
   ],
   "author": "Marcin Baniowski",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/baniol/tree-manager/issues"
+  },
+  "homepage": "https://github.com/baniol/tree-manager",
   "devDependencies": {
     "chai": "^2.2.0",
     "exec-sync": "^0.1.6",
