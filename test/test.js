@@ -194,21 +194,3 @@ suite('Moving nodes', function () {
   });
 
 });
-
-suite('File content manipulation', function () {
-
-  suiteSetup(function () {
-    setup();
-  });
-  suiteTeardown(function () {
-    teardown();
-  });
-
-  test('Read file', function (done) {
-    treeManager.readFile('second_dir/three.js', function (res) {
-      assert.equal(res, 'three content', 'Reading file content');
-      done();
-    });
-  });
-
-});

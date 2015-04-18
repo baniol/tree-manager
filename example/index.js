@@ -57,7 +57,12 @@ app.get('/move_node', function (req, res) {
 });
 
 app.get('/getfilecontent', function (req, res) {
-  treeManager.readFile(req.query.filename, function (response) {
-    res.send(response);
+  fs.readFile(path.join(this.root, req.query.filename), {encoding: 'utf-8'}, function (err, data) {
+    if (err) {
+      cb(new Error('Error reading file'));
+    }
+    else {
+      cb(data);
+    }
   });
 });

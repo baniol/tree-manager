@@ -1,14 +1,10 @@
-## tree-manager
+# tree-manager
 
 nodejs connector for jstree library.
 
-To run the example go to `example` folder run `npm install` and point your browser to `localhost:8080`.
+To run the example go to `example` folder run `npm install` and point your browser to `localhost:5000`.
 
-The module allows folders and files manipulation via http api.
-
-You can change the root directory on the fly by calling `treeManager.setRoot(path)` with a path as an argument.
-
-### Init
+## Initialization
 
 ```javascript
 var TreeManager = require('../lib/treemanager');
@@ -16,39 +12,114 @@ var rootDir = __dirname + '/test_dir_root';
 var treeManager = new TreeManager(rootDir);
 ```
 
-Methods
+Set the root path whil instantiating the module.
 
-`walkDir`
-Returns object with dir structure representation.
-Example of the object ....
+You can change the root directory on the fly by calling `treeManager.setRoot(path)` with a path as an argument.
 
-Parameters:
-* rootDirectory - absolute path to rd
-* callback - function called on success or error, return 2 aguments: error and the list
+## Methods
 
-#### Example
+### `walkDir`
+_Walks down recursivelly the root folder._
+
+__Example:__
+
 ```javascript
 treeManager.walkDir(rootDir, function (err, tree) {
-  res.json(tree);
+  console.log(tree);
 });
 ```
 
-#### Example
+__Parameters__:
+* rootDirectory - absolute path to rd
+* callback - function called on success or error, returns error object or an object with the directory structure
+
+
+-----
+
+### `createNode`
+
+_Creates a new file or folder_
+
+__Example:__
+
 ```javascript
-treeManager.createNode(filename, type, function (response) {
-  res.send(response);
+var type = 'file';
+var filename = path.join(req.query.id, req.query.text);
+treeManager.createNode(filename, type, function (res) {
+  console.log(res);
 });
 ```
 
-<hr>
+__Parameters__:
+* name - path to a new file or folder
+* type - file or folder
+* callback - function called on success or error, returns error object or new folder or file name.
+
+-----
+
+### `renameNode`
+
+_Renames a file or folder_
+
+__Example:__
+
+```javascript
+treeManager.renameNode('some_dir/note.txt', 'note_changed.txt', function (res) {
+  console.log(res);
+});
+```
+
+__Parameters__:
+
+* oldPath - path to the current file or folder
+* newName - new name for the file or folder
+* callback - function called on success or error, returns error object or changed file path
+
+-----
+
+### `deleteNode`
+
+_Removes file or folder. Folders are removed recursivelly._
+
+__Example:__
+
+```javascript
+treeManager.deleteNode('some_dir/notes.txt', function (res) {
+  console.log(res);
+});
+```
+
+__Parameters:__
+
+* nodePath Relative path of the node to be removed
+* callback - function called on success or error, returns error object or path of the removed node
+
+-----
+
+### `moveNode`
+
+_Moves node_
+
+__Example:__
+
+```javascript
+treeManager.moveNode('some_dir/notes.txt', 'next_level/other_dir', function (res) {
+  res.send(res);
+});
+```
+
+__Parameters:__
+
+* nodePath Relative path of the node to be moved
+* nodeParent Relative path of the parent target node
+* callback - function called on success returns new path to the node
+
+## Tests
+
+To perform tests run `npm test` in the `tree-manager` root directory.
 
 ## TODO
 
-* output textarea in the example for displaying file contents
-* modyfying and saving file content from textarea in the example
 * 2 option for folder removal - recursive with all subfolders and files and only empty
-* investigate error handling
-* search npm modules for api description in readme
-* load tests - check if walkDir is async
-* search for best practices for npm modules
+* check performance of walkDir function for larger directory structure
 * check uniqueness after renaming and moving - server side

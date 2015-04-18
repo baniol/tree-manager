@@ -1,6 +1,6 @@
 {
-  "name": "dir-tree-manager-example",
-  "version": "0.0.0",
+  "name": "tree-manager-example",
+  "version": "0.0.1",
   "dependencies": {
     "body-parser": "^1.12.2",
     "express": "^4.12.3"
